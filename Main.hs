@@ -18,18 +18,18 @@ instance Show Nat where
   show = show . show'
 
 instance Ord Nat where
-  (S k) > Z = True
   (S k) > (S y) = k > y
+  (S k) > Z = True
   Z > (S k) = False
 
-  (S k) >= Z = True
+  (S _) >= Z = True
   (S k) >= (S y) = k >= y
+  Z >= (S _) = False
   Z >= Z = True
-  Z >= (S k) = False
 
-  (S k) <= Z = False
+  (S _) <= Z = False
   (S k) <= (S y) = k <= y
-  Z <= (S k) = True
+  Z <= (S _) = True
   Z <= Z = True
 
 instance Num Nat where
@@ -39,8 +39,8 @@ instance Num Nat where
   Z * n = Z
   (S k) * n = n + (k * n)
 
-  n - Z = n
   (S k) - (S y) = k - y
+  n - Z = n
   Z - n = error "Cannot have negative Nat"
 
   abs n = n
