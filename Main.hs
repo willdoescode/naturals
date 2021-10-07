@@ -1,6 +1,7 @@
 module Main where
 
-import Prelude hiding (even, odd)
+-- import Prelude hiding (even, odd)
+import Data.Ratio
 
 data Nat = Z | S Nat
 
@@ -50,14 +51,30 @@ instance Num Nat where
     | x == 0 = Z          
     | otherwise = S $ fromInteger (x - 1)
 
-even :: Nat -> Bool
-even Z = True
-even (S k) = odd k
+instance Read Nat where
+  readsPrec _ input = [(fromInteger $ read input, "")]
 
-odd :: Nat -> Bool
-odd Z = False
-odd (S k) = even k
+instance Real Nat where
+  toRational n = toInteger n % 1
+
+instance Enum Nat where
+  toEnum = fromInteger . toInteger
+  fromEnum = fromIntegral . toInteger
+
+instance Integral Nat where
+  toInteger (S k) = 1 + toInteger k
+  toInteger Z = 0
+
+  quotRem n _ = (Z, if even' n then Z else n)
+
+even' :: Nat -> Bool
+even' Z = True
+even' (S k) = odd' k
+
+odd' :: Nat -> Bool
+odd' Z = False
+odd' (S k) = even' k
 
 main :: IO ()
-main = print $ (4 :: Nat) + (5 :: Nat) * (6 :: Nat)
+main = print $ (read "3" :: Nat) * (5 :: Nat) - (3 :: Nat)
 
