@@ -6,7 +6,7 @@ data Nat = Z | S Nat
   deriving (Eq)
 
 show' :: Nat -> Int
-show' (S rest@(.)) = 1 + show' rest
+show' (S k) = 1 + show' k
 show' Z = 0
 
 instance Show Nat where
