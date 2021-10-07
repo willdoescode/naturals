@@ -3,7 +3,12 @@ module Main where
 import Prelude hiding (even, odd)
 
 data Nat = Z | S Nat
-  deriving (Eq)
+
+instance Eq Nat where
+  (S k) == (S y) = k == y
+  Z == Z = True
+  Z == _ = False
+  _ == Z = False
 
 show' :: Nat -> Int
 show' (S k) = 1 + show' k
